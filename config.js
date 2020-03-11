@@ -17,6 +17,25 @@ whitePawnImage.src = "images/whitePawn.png";
 const blackPawnImage = new Image()
 blackPawnImage.src = "images/blackPawn.png";
 
+const whiteQueenImage = new Image()
+whiteQueenImage.src = "images/whiteQueen.png";
+const blackQueenImage = new Image()
+blackQueenImage.src = "images/blackQueen.png";
+
+const whiteBishopImage = new Image()
+whiteBishopImage.src = "images/whiteBishop.png";
+const blackBishopImage = new Image()
+blackBishopImage.src = "images/blackBishop.png";
+
+const whiteKnightImage = new Image()
+whiteKnightImage.src = "images/whiteKnight.png";
+const blackKnightImage = new Image()
+blackKnightImage.src = "images/blackKnight.png";
+
+const whiteRooksImage = new Image()
+whiteRooksImage.src = "images/whiteRooks.png";
+const blackRooksImage = new Image()
+blackRooksImage.src = "images/blackRooks.png";
 
 const whiteKingImage = new Image()
 whiteKingImage.src = "images/whiteKing.png";

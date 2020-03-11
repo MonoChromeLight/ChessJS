@@ -43,7 +43,19 @@ BoardManager.loadLevel  = function(){
             {type:"Pawn",row:1, col:9, isWhite:false},
             /////////////////////////////////////////
             {type:"King",row:9, col:3, isWhite:true},
-            {type:"King",row:0, col:6, isWhite:false}
+            {type:"King",row:0, col:6, isWhite:false},
+            //////////////////////////////////////////
+            {type:"Queen",row:9, col:4, isWhite:true},
+            {type:"Queen",row:0, col:5, isWhite:false},
+            ///////////////////////////////////////////
+            {type:"Bishop",row:9, col:2, isWhite:true},
+            {type:"Bishop",row:0, col:7, isWhite:false},
+            ///////////////////////////////////////////
+            {type:"Knight",row:9, col:1, isWhite:true},
+            {type:"Knight",row:0, col:8, isWhite:false},
+            ///////////////////////////////////////////
+            {type:"Rooks",row:9, col:0, isWhite:true},
+            {type:"Rooks",row:0, col:9, isWhite:false},
         ]
 
       
@@ -53,16 +65,30 @@ BoardManager.loadLevel  = function(){
             console.log(pawnMap[i].type);
             var figureCoordinate  = pawnMap[i];
 
-             if (pawnMap[i].type=="King") 
+            if (pawnMap[i].type=="King") 
             {
               var figureReference   = new King(figureCoordinate); 
+            }
+            if (pawnMap[i].type=="Queen") 
+            {
+              var figureReference   = new Queen(figureCoordinate); 
             }
             if (pawnMap[i].type=="Pawn") 
             {
               var figureReference   = new Pawn(figureCoordinate); 
             }
-
-
+            if (pawnMap[i].type=="Bishop") 
+            {
+              var figureReference   = new Bishop(figureCoordinate); 
+            }
+            if (pawnMap[i].type=="Knight") 
+            {
+              var figureReference   = new Knight(figureCoordinate); 
+            }
+            if (pawnMap[i].type=="Rooks") 
+            {
+              var figureReference   = new Rooks(figureCoordinate); 
+            }
             
             _this.characterCollection.push(figureReference);
               if (pawnMap[i].row==0) 
