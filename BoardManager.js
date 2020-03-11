@@ -26,10 +26,11 @@ BoardManager.init    =  function(canvas){
 BoardManager.loadLevel  = function(){
 
  var moved=false;
+  var occupiedTile;
   Board.loadBoard(BoardConfig.TOTAL_ROWS,BoardConfig.TOTAL_COLUMNS);
 ///////////////////////////////////////////////////////////////////////
-   var loadPawn = function() {
-        var pawnMap = [
+   var loadFigures = function() {
+        var figureMap = [
             {type:"Pawn",row:8, col:0, isWhite:true},
             {type:"Pawn",row:8, col:1, isWhite:true},
             {type:"Pawn",row:8, col:2, isWhite:true},
@@ -61,82 +62,88 @@ BoardManager.loadLevel  = function(){
       
 
 
-        for(var i = 0; i < pawnMap.length; i++) {
-            console.log(pawnMap[i].type);
-            var figureCoordinate  = pawnMap[i];
+        for(var i = 0; i < figureMap.length; i++) {
+            console.log(figureMap[i].type);
+            var figureCoordinate  = figureMap[i];
 
-            if (pawnMap[i].type=="King") 
+            if (figureMap[i].type=="King") 
             {
               var figureReference   = new King(figureCoordinate); 
             }
-            if (pawnMap[i].type=="Queen") 
+            if (figureMap[i].type=="Queen") 
             {
               var figureReference   = new Queen(figureCoordinate); 
             }
-            if (pawnMap[i].type=="Pawn") 
+            if (figureMap[i].type=="Pawn") 
             {
               var figureReference   = new Pawn(figureCoordinate); 
             }
-            if (pawnMap[i].type=="Bishop") 
+            if (figureMap[i].type=="Bishop") 
             {
               var figureReference   = new Bishop(figureCoordinate); 
             }
-            if (pawnMap[i].type=="Knight") 
+            if (figureMap[i].type=="Knight") 
             {
               var figureReference   = new Knight(figureCoordinate); 
             }
-            if (pawnMap[i].type=="Rooks") 
+            if (figureMap[i].type=="Rooks") 
             {
               var figureReference   = new Rooks(figureCoordinate); 
             }
             
             _this.characterCollection.push(figureReference);
-              if (pawnMap[i].row==0) 
-              {
-                 var pawnPosition=pawnMap[i].col;
-                 _this.boardCollection[pawnPosition].isEmpty=false;
-              } 
-              else
-              {
-                var pawnPosition=''+pawnMap[i].row+pawnMap[i].col;
-                 _this.boardCollection[pawnPosition].isEmpty=false;
-               }
+            var figurePosition=figureMap[i].row*10+figureMap[i].col;
+             _this.boardCollection[figurePosition].isEmpty=false;
+              //    _this.boardCollection[figurePosition].isEmpty=false;
+              // if (figureMap[i].row==0) 
+              // {
+              //    var figurePosition=figureMap[i].col;
+              //    _this.boardCollection[figurePosition].isEmpty=false;
+              // } 
+              // else
+              // {
+              //   var figurePosition=''+figureMap[i].row+figureMap[i].col;
+              //    _this.boardCollection[figurePosition].isEmpty=false;
+              //  }
 
           
         }
     };
 
-    loadPawn();
+    loadFigures();
 
     ///////////////////////////////////////////////////////
 };
 BoardManager.selectTile = function(selectedX,selectedY){
   var x      = Math.floor(selectedX / BoardConfig.TILE_SIZE);
   var y      = Math.floor(selectedY / BoardConfig.TILE_SIZE);
-
+ 
  
 
   for (var i = 0; i < _this.characterCollection.length; i++) {  
 
     if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x&&!_this.boardCollection[y*10+x].isEmpty)&&isWhitesTurn==_this.characterCollection[i].isWhite) {
+            _this.render();
           Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
+          occupiedTile=_this.boardCollection[y*10+x];
            // Pawn.prototype.move( _this.characterCollection[_this.characterCollection[i].col]);
            // _this.render();
            // console.log(selectedX+" = "+_this.characterCollection[i].col);
-          location.y=Figure.prototype.calculateMovement( _this.characterCollection[_this.characterCollection[i].col]);
+           // location.y=Figure.prototype.calculateMovement( _this.characterCollection[_this.characterCollection[i].col]);
           selectedFigure=i;			
            var moved=false;
            
            //Figure.flipBoard(_this.characterCollection);
     }
   }
-   console.log(selectedFigure); 
+   // console.log(selectedFigure); 
 
     if (_this.boardCollection[y*10+x].isEmpty){
         
         Tile.MakeGreen(_this.boardCollection[y*10+x],x,y);
       	Pawn.prototype.move(_this.characterCollection[selectedFigure],x,y);
         // _this.render();
+        occupiedTile.isEmpty=true;
         console.log(_this.characterCollection[selectedFigure]); 
         isWhitesTurn=!isWhitesTurn;
         moved=true;

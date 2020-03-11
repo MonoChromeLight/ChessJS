@@ -38,13 +38,11 @@ Tile.MarkTile = function(k,x,y){
 }
 
 Tile.MakeGreen = function(k,x,y){
-    
         context.beginPath();
         context.rect(x*BoardConfig.TILE_SIZE, y*BoardConfig.TILE_SIZE, BoardConfig.TILE_SIZE, BoardConfig.TILE_SIZE);     
         context.strokeStyle = '#00FF00';     
         context.stroke();
         context.closePath();
-    
 }
 
 };
