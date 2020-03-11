@@ -12,7 +12,15 @@ var ChessColor = {
 
 
 
-const blackPawnImage = new Image()
-blackPawnImage.src = "images/blackPawn.png";
 const whitePawnImage = new Image()
 whitePawnImage.src = "images/whitePawn.png";
+const blackPawnImage = new Image()
+blackPawnImage.src = "images/blackPawn.png";
+
+
+const whiteKingImage = new Image()
+whiteKingImage.src = "images/whiteKing.png";
+const blackKingImage = new Image()
+blackKingImage.src = "images/blackKing.png";
+
+

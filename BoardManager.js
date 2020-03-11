@@ -43,6 +43,9 @@ BoardManager.loadLevel  = function(){
             {row:1, col:9, isWhite:false},
         ]
 
+      
+
+
         for(var i = 0; i < pawnMap.length; i++) {
            // console.log(pawnMap[i].row);
             var pawnCoordinate  = pawnMap[i];
@@ -51,8 +54,10 @@ BoardManager.loadLevel  = function(){
           
             var pawnPosition=''+pawnMap[i].row+pawnMap[i].col;
              _this.boardCollection[pawnPosition].isEmpty=false;
-           
         }
+
+      
+
     };
 
     loadPawn();
