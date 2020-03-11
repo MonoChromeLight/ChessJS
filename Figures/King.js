@@ -1,5 +1,6 @@
 var kingImageName;
 var King = function(constructorObject) {
+    this.type           = constructorObject.type;
     this.row            = constructorObject.row;
     this.col            = constructorObject.col;
     this.isWhite		    = constructorObject.isWhite;
@@ -12,7 +13,7 @@ var King = function(constructorObject) {
     }
     	
     	this.figureReferance = new Figure({
-        type    : "King",
+        type    : this.type,
         row     : this.row,
         col     : this.col,
         isWhite : this.isWhite,

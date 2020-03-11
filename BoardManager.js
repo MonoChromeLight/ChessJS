@@ -15,7 +15,7 @@ BoardManager.init    =  function(canvas){
   _this.boardCollection      =   [];
   _this.boardReference       =   null;
 
-  whitePawnImage.onload = function(){
+  blackKingImage.onload = function(){
       _this.loadLevel();
       _this.render();
     }
@@ -30,34 +30,54 @@ BoardManager.loadLevel  = function(){
 ///////////////////////////////////////////////////////////////////////
    var loadPawn = function() {
         var pawnMap = [
-            {row:8, col:0, isWhite:true},
-            {row:8, col:1, isWhite:true},
-            {row:8, col:2, isWhite:true},
-            {row:8, col:3, isWhite:true},
-            {row:8, col:4, isWhite:true},
+            {type:"Pawn",row:8, col:0, isWhite:true},
+            {type:"Pawn",row:8, col:1, isWhite:true},
+            {type:"Pawn",row:8, col:2, isWhite:true},
+            {type:"Pawn",row:8, col:3, isWhite:true},
+            {type:"Pawn",row:8, col:4, isWhite:true},
                 /////////////////////////////
-            {row:1, col:5, isWhite:false},
-            {row:1, col:6, isWhite:false},
-            {row:1, col:7, isWhite:false},
-            {row:1, col:8, isWhite:false},
-            {row:1, col:9, isWhite:false},
+            {type:"Pawn",row:1, col:5, isWhite:false},
+            {type:"Pawn",row:1, col:6, isWhite:false},
+            {type:"Pawn",row:1, col:7, isWhite:false},
+            {type:"Pawn",row:1, col:8, isWhite:false},
+            {type:"Pawn",row:1, col:9, isWhite:false},
+            /////////////////////////////////////////
+            {type:"King",row:9, col:3, isWhite:true},
+            {type:"King",row:0, col:6, isWhite:false}
         ]
 
       
 
 
         for(var i = 0; i < pawnMap.length; i++) {
-           // console.log(pawnMap[i].row);
-            var pawnCoordinate  = pawnMap[i];
-            var figureReference   = new Pawn(pawnCoordinate); 
+            console.log(pawnMap[i].type);
+            var figureCoordinate  = pawnMap[i];
+
+             if (pawnMap[i].type=="King") 
+            {
+              var figureReference   = new King(figureCoordinate); 
+            }
+            if (pawnMap[i].type=="Pawn") 
+            {
+              var figureReference   = new Pawn(figureCoordinate); 
+            }
+
+
+            
             _this.characterCollection.push(figureReference);
+              if (pawnMap[i].row==0) 
+              {
+                 var pawnPosition=pawnMap[i].col;
+                 _this.boardCollection[pawnPosition].isEmpty=false;
+              } 
+              else
+              {
+                var pawnPosition=''+pawnMap[i].row+pawnMap[i].col;
+                 _this.boardCollection[pawnPosition].isEmpty=false;
+               }
+
           
-            var pawnPosition=''+pawnMap[i].row+pawnMap[i].col;
-             _this.boardCollection[pawnPosition].isEmpty=false;
         }
-
-      
-
     };
 
     loadPawn();
