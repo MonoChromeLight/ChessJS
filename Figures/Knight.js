@@ -22,6 +22,27 @@ var Knight = function(constructorObject) {
    
 };
 
+Knight.prototype.isMovable = function(isWhitesTurn,board,x,y) {
+var direction=0;
+  if(isWhitesTurn){
+    direction=y-1;
+  }
+  else{
+    direction=y+1;
+  }
+ 
+ if(board[direction*10+x].isEmpty)
+  {
+    console.log("yes");
+  }
+  else
+  {
+    console.log("no");
+  }
+  
+};
+
+
 Knight.prototype.render = function(context) {
  
       this.figureReferance.render(context);

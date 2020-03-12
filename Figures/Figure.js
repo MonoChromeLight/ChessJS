@@ -16,26 +16,43 @@ Figure.prototype.render = function(context) {
 
 };
 
+
+
 Figure.prototype.calculateMovement = function(figureRef) {
 	this.figure = figureRef;
-
+var possibleMoves = [];
 var x=this.figure.figureReferance.col;
 var y =this.figure.figureReferance.row;
 
- if (this.figure.figureReferance.type=="Pawn") {
- 	// console.log("figurecheck");
-
+if (this.figure.figureReferance.type=="Pawn") {
  	if (this.figure.figureReferance.isWhite) 
  	{
- 		Tile.MakeGreen(_this.boardCollection[y*10+x],x,y-1);
- 		y--;
+ 		// Tile.MakeGreen(_this.boardCollection[y*10+x],x,y-1);
+        y--;
+ 		
  	} 
  	else 
  	{
- 		Tile.MakeGreen(_this.boardCollection[y*10+x],x,y+1);
+ 		// Tile.MakeGreen(_this.boardCollection[y*10+x],x,y+1);
  		y++;
  	}
+if (this.figure.figureReferance.type=="Knight") {
+    if (this.figure.figureReferance.isWhite) 
+     {
+         // Tile.MakeGreen(_this.boardCollection[y*10+x],x,y-1);
+         y-=2;
+         x-=1;
+     } 
+     else 
+     {
+         // Tile.MakeGreen(_this.boardCollection[y*10+x],x,y+1);
+         y+=2;
+         x+=1;
+     }
+}
 
- 	return y;
+possibleMoves.push(y,x);
+
+ 	return possibleMoves;
  }
 }

@@ -9,7 +9,7 @@ BoardManager.init    =  function(canvas){
    x: this.x,
    y: this.y
   };
-  var selectedFigure;
+ 
  
   _this.characterCollection  =   [];
   _this.boardCollection      =   [];
@@ -25,16 +25,20 @@ BoardManager.init    =  function(canvas){
 
 BoardManager.loadLevel  = function(){
 
- var moved=false;
+  var moved=false;
   var occupiedTile;
+  var possibleMoves=[];
+  var selectedFigure=0;
+  var moved = false;
+
   Board.loadBoard(BoardConfig.TOTAL_ROWS,BoardConfig.TOTAL_COLUMNS);
 ///////////////////////////////////////////////////////////////////////
    var loadFigures = function() {
         var figureMap = [
             {type:"Pawn",row:8, col:0, isWhite:true},
-            {type:"Pawn",row:8, col:1, isWhite:true},
+            {type:"Pawn",row:7, col:1, isWhite:true},
             {type:"Pawn",row:8, col:2, isWhite:true},
-            {type:"Pawn",row:8, col:3, isWhite:true},
+            {type:"Pawn",row:7, col:3, isWhite:true},
             {type:"Pawn",row:8, col:4, isWhite:true},
                 /////////////////////////////
             {type:"Pawn",row:1, col:5, isWhite:false},
@@ -94,19 +98,7 @@ BoardManager.loadLevel  = function(){
             _this.characterCollection.push(figureReference);
             var figurePosition=figureMap[i].row*10+figureMap[i].col;
              _this.boardCollection[figurePosition].isEmpty=false;
-              //    _this.boardCollection[figurePosition].isEmpty=false;
-              // if (figureMap[i].row==0) 
-              // {
-              //    var figurePosition=figureMap[i].col;
-              //    _this.boardCollection[figurePosition].isEmpty=false;
-              // } 
-              // else
-              // {
-              //   var figurePosition=''+figureMap[i].row+figureMap[i].col;
-              //    _this.boardCollection[figurePosition].isEmpty=false;
-              //  }
-
-          
+                     
         }
     };
 
@@ -118,40 +110,69 @@ BoardManager.selectTile = function(selectedX,selectedY){
   var x      = Math.floor(selectedX / BoardConfig.TILE_SIZE);
   var y      = Math.floor(selectedY / BoardConfig.TILE_SIZE);
  
+
+ 
+ 
+    for (var i = 0; i < _this.characterCollection.length; i++) {
+    if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x)&&isWhitesTurn==_this.characterCollection[i].isWhite) {
+        _this.render();
+        Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
+        _this.characterCollection[i].isMovable(isWhitesTurn,_this.boardCollection,x,y);
+        
+        }
+     }
+
  
 
-  for (var i = 0; i < _this.characterCollection.length; i++) {  
+  // for (var i = 0; i < _this.characterCollection.length; i++) {  
 
-    if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x&&!_this.boardCollection[y*10+x].isEmpty)&&isWhitesTurn==_this.characterCollection[i].isWhite) {
-            _this.render();
-          Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
-          occupiedTile=_this.boardCollection[y*10+x];
-           // Pawn.prototype.move( _this.characterCollection[_this.characterCollection[i].col]);
-           // _this.render();
-           // console.log(selectedX+" = "+_this.characterCollection[i].col);
-           // location.y=Figure.prototype.calculateMovement( _this.characterCollection[_this.characterCollection[i].col]);
-          selectedFigure=i;			
-           var moved=false;
+  //   if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x&&!_this.boardCollection[y*10+x].isEmpty)&&isWhitesTurn==_this.characterCollection[i].isWhite) {
+  //         _this.render();
+  //         selectedFigure=i;
+  //         Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
+  //         if (selectedFigure) 
+  //         {
+  //         possibleMoves=Figure.prototype.calculateMovement( _this.characterCollection[_this.characterCollection[i].col]);
+  //         console.log(possibleMoves.length);
+            
+  //         }
+
+         
+      
+          
+  //        //   
+  //         occupiedTile=_this.boardCollection[y*10+x];
+  //          // Pawn.prototype.move( _this.characterCollection[_this.characterCollection[i].col]);
+  //          // _this.render();
+  //          // console.log(selectedX+" = "+_this.characterCollection[i].col);
+  //          // location.y=Figure.prototype.calculateMovement( _this.characterCollection[_this.characterCollection[i].col]);
+          			
+  //          var moved=false;
            
-           //Figure.flipBoard(_this.characterCollection);
-    }
-  }
-   // console.log(selectedFigure); 
+  //          //Figure.flipBoard(_this.characterCollection);
+  //   }
+  // }
 
-    if (_this.boardCollection[y*10+x].isEmpty){
+   //     for (var i = 0 ; i < possibleMoves.length; i++) {
+   //        Tile.MakeGreen(_this.boardCollection[possibleMoves[i]],possibleMoves[i][0],possibleMoves[i][1]);
+   //        console.log(possibleMoves[i]);
+   //     }
+   // // console.log(selectedFigure); 
+
+   //  if (_this.boardCollection[y*10+x].isEmpty&&selectedFigure>-1){
         
-        Tile.MakeGreen(_this.boardCollection[y*10+x],x,y);
-      	Pawn.prototype.move(_this.characterCollection[selectedFigure],x,y);
-        // _this.render();
-        occupiedTile.isEmpty=true;
-        console.log(_this.characterCollection[selectedFigure]); 
-        isWhitesTurn=!isWhitesTurn;
-        moved=true;
-      }
+   //      Tile.MakeGreen(_this.boardCollection[y*10+x],x,y);
+   //    	Pawn.prototype.move(_this.characterCollection[selectedFigure],x,y);
+   //      // _this.render();
+   //      occupiedTile.isEmpty=true;
+       
+   //      isWhitesTurn=!isWhitesTurn;
+   //      moved=true;
+   //    }
 
-      if (moved){
-      		_this.render();
-      }
+   //    if (moved){
+   //    		_this.render();
+   //    }
     
 
 }

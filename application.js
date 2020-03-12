@@ -1,12 +1,8 @@
 var canvasElement = document.getElementById("game-board");
 BoardManager.init(canvasElement);
 
-// document.addEventListener('click', function(e) {
-//     //BoardManager.switchTurn();
-//     BoardManager.selectFigure();
-// });
    var canvas = document.getElementById('game-board');
-      var context = canvas.getContext('2d');
+   var context = canvas.getContext('2d');
 
  function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
@@ -23,8 +19,6 @@ BoardManager.init(canvasElement);
  //      }
 
 document.addEventListener('click', function(e) {
-    //console.log(e);
-    
     BoardManager.selectTile(e.x-15,e.y-15);
    
 });
