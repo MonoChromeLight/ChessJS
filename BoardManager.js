@@ -54,13 +54,13 @@ BoardManager.loadLevel  = function(){
             {type:"Queen",row:0, col:5, isWhite:false},
             ///////////////////////////////////////////
             {type:"Bishop",row:9, col:2, isWhite:true},
-            {type:"Bishop",row:0, col:7, isWhite:false},
+            {type:"Bishop",row:9, col:7, isWhite:true},////
             ///////////////////////////////////////////
             {type:"Knight",row:9, col:1, isWhite:true},
             {type:"Knight",row:0, col:8, isWhite:false},
             ///////////////////////////////////////////
-            {type:"Rooks",row:9, col:0, isWhite:true},
-            {type:"Rooks",row:0, col:9, isWhite:false},
+          //  {type:"Rooks",row:9, col:0, isWhite:true},
+          //  {type:"Rooks",row:0, col:9, isWhite:false},
         ]
 
       
