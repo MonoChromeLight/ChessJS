@@ -35,29 +35,29 @@ BoardManager.loadLevel  = function(){
 ///////////////////////////////////////////////////////////////////////
    var loadFigures = function() {
         var figureMap = [
-            {type:"Pawn",row:8, col:0, isWhite:true},
-            {type:"Pawn",row:7, col:1, isWhite:true},
-            {type:"Pawn",row:8, col:2, isWhite:true},
-            {type:"Pawn",row:7, col:3, isWhite:true},
-            {type:"Pawn",row:8, col:4, isWhite:true},
-                /////////////////////////////
-            {type:"Pawn",row:1, col:5, isWhite:false},
-            {type:"Pawn",row:1, col:6, isWhite:false},
-            {type:"Pawn",row:1, col:7, isWhite:false},
-            {type:"Pawn",row:1, col:8, isWhite:false},
-            {type:"Pawn",row:1, col:9, isWhite:false},
-            /////////////////////////////////////////
-            {type:"King",row:9, col:3, isWhite:true},
-            {type:"King",row:0, col:6, isWhite:false},
-            //////////////////////////////////////////
-            {type:"Queen",row:9, col:4, isWhite:true},
-            {type:"Queen",row:0, col:5, isWhite:false},
-            ///////////////////////////////////////////
-            {type:"Bishop",row:9, col:2, isWhite:true},
-            {type:"Bishop",row:9, col:7, isWhite:true},////
-            ///////////////////////////////////////////
-            {type:"Knight",row:9, col:1, isWhite:true},
-            {type:"Knight",row:0, col:8, isWhite:false},
+            // {type:"Pawn",row:8, col:0, isWhite:true},
+            // {type:"Pawn",row:7, col:1, isWhite:true},
+            // {type:"Pawn",row:8, col:2, isWhite:true},
+            // {type:"Pawn",row:7, col:3, isWhite:true},
+            // {type:"Pawn",row:8, col:4, isWhite:true},
+            //     /////////////////////////////
+            // {type:"Pawn",row:1, col:5, isWhite:false},
+            // {type:"Pawn",row:1, col:6, isWhite:false},
+            // {type:"Pawn",row:1, col:7, isWhite:false},
+            // {type:"Pawn",row:1, col:8, isWhite:false},
+            // {type:"Pawn",row:1, col:9, isWhite:false},
+            // /////////////////////////////////////////
+            // {type:"King",row:9, col:3, isWhite:true},
+            // {type:"King",row:0, col:6, isWhite:false},
+            // //////////////////////////////////////////
+            // {type:"Queen",row:9, col:4, isWhite:true},
+            // {type:"Queen",row:0, col:5, isWhite:false},
+            // ///////////////////////////////////////////
+            // {type:"Bishop",row:9, col:2, isWhite:true},
+            {type:"Bishop",row:2, col:2, isWhite:true},////
+            // ///////////////////////////////////////////
+            // {type:"Knight",row:9, col:1, isWhite:true},
+            // {type:"Knight",row:0, col:8, isWhite:false},
             ///////////////////////////////////////////
           //  {type:"Rooks",row:9, col:0, isWhite:true},
           //  {type:"Rooks",row:0, col:9, isWhite:false},
@@ -117,7 +117,7 @@ BoardManager.selectTile = function(selectedX,selectedY){
     if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x)&&isWhitesTurn==_this.characterCollection[i].isWhite) {
         _this.render();
         Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
-        _this.characterCollection[i].isMovable(isWhitesTurn,_this.boardCollection,x,y);
+        _this.characterCollection[i].availableMoves(isWhitesTurn,_this.boardCollection,x,y);
         
         }
      }
