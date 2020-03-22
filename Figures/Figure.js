@@ -17,6 +17,59 @@ Figure.prototype.render = function(context) {
 };
 
 
+Figure.rowsAfter = function(y)
+{
+  return BoardConfig.TOTAL_ROWS-y;
+}
+
+Figure.columnsAfter = function(x)
+{
+  return BoardConfig.TOTAL_COLUMNS-x;
+}
+
+Figure.calculateDiagonal = function(x1,y1,x2,y2,diagonalResults) {
+  
+    n= Math.abs(x2-x1);
+        
+    Xd =  (x2-x1)/n;
+    Yd =  (y2-y1)/n;
+        
+    for (var k = 1; k <= n; k++) {
+      diagonalResults.push((y1+k*Yd)*10+(x1+k*Xd));
+    }
+    return diagonalResults;
+}
+
+Figure.drawDiagonals = function(diagonals,board)
+{
+    for (var i = 0; i < diagonals.length; i++) {
+           if(board[diagonals[i]].isEmpty)
+            {
+            // empty
+              Tile.MakeGreen(board[diagonals[i]],board[diagonals[i]].col,board[diagonals[i]].row);
+            }
+            else
+            {
+              //not empty
+              Tile.MarkTile(board[diagonals[i]],board[diagonals[i]].col,board[diagonals[i]].row);
+            }
+    }
+}
+
+Figure.areInBoard= function(x,y)
+{
+  if(x>=0&&x<=9&&y>=0&&y<=9)
+  {
+    //console.log(x);
+    return true;
+    
+  }
+  else
+  {
+    return false;
+  }
+}
+
 
 Figure.prototype.calculateMovement = function(figureRef) {
 	this.figure = figureRef;

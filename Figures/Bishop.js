@@ -40,223 +40,98 @@ Bishop.prototype.availableMoves = function(isWhitesTurn,board,x,y) {
         var diagonals=[];
 
         var topLeftMin=(x<y)?x:y;
+          console.log(topLeftMin);
+          for (var j= 1; j<=topLeftMin; j++) {
 
-          for (; topLeftMin > 0; topLeftMin--) {
             topLeftEndX--;
             topLeftEndY--;
+            if(Figure.areInBoard(topLeftEndX,topLeftEndY))
+            {
+              if (board[(topLeftEndY)*10+(topLeftEndX)].isEmpty) 
+              {
+                Figure.calculateDiagonal(x,y,topLeftEndX,topLeftEndY,diagonals);   
+              }
+              else{
+                Figure.calculateDiagonal(x,y,topLeftEndX,topLeftEndY,diagonals);
+                break;
+              }
+            }
           }
-
-        calculateDiagonal(x,y,topLeftEndX,topLeftEndY,diagonals);
-
         //top right end
-        var topRightMin=(BoardConfig.TOTAL_ROWS-(x+1)<(BoardConfig.TOTAL_ROWS-(BoardConfig.TOTAL_ROWS-y)))?BoardConfig.TOTAL_COLUMNS-(x+1):(BoardConfig.TOTAL_ROWS-(BoardConfig.TOTAL_ROWS-y));
+        var topRightMin=Figure.columnsAfter(x)+1<y?Figure.columnsAfter(x)+1:y;
           for (var j = 1; j <= topRightMin ; j++) 
           {
             topRightEndX++;
             topRightEndY--;
+            if (Figure.areInBoard(topRightEndX,topRightEndY)) 
+            {
+              if (board[(topRightEndY)*10+(topRightEndX)].isEmpty) 
+              {
+               Figure.calculateDiagonal(x,y,topRightEndX,topRightEndY,diagonals); 
+              }
+              else
+              {
+                Figure.calculateDiagonal(x,y,topRightEndX,topRightEndY,diagonals); 
+                break
+              }
+            }
           }
-
-        calculateDiagonal(x,y,topRightEndX,topRightEndY,diagonals);
-
         //bottom left
-        var bottomLeftMin=(BoardConfig.TOTAL_COLUMNS-(BoardConfig.TOTAL_COLUMNS-x)<BoardConfig.TOTAL_ROWS-(y+1))?BoardConfig.TOTAL_COLUMNS-(BoardConfig.TOTAL_COLUMNS-x):BoardConfig.TOTAL_ROWS-(y+1);
-
+        var bottomLeftMin=x+1<Figure.rowsAfter(y)+1?x+1:Figure.rowsAfter(y)+1;
           for (var j = 1; j <= bottomLeftMin ; j++) {
             bottomLeftEndX--;
             bottomLeftEndY++;
-            //console.log(bottomLeftEndX, bottomLeftEndY);
+            if (Figure.areInBoard(bottomLeftEndX,bottomLeftEndY)) 
+            {
+              if (board[(bottomLeftEndY)*10+(bottomLeftEndX)].isEmpty) 
+              {
+                Figure.calculateDiagonal(x,y,bottomLeftEndX,bottomLeftEndY,diagonals);
+              }
+              else
+              {
+                Figure.calculateDiagonal(x,y,bottomLeftEndX,bottomLeftEndY,diagonals);
+                break;
+              }
+            }
           }
 
-        calculateDiagonal(x,y,bottomLeftEndX,bottomLeftEndY,diagonals);
+        
 
-        var bottomLeftMin=(BoardConfig.TOTAL_ROW-(y+1)<(BoardConfig.TOTAL_COLUMNS-(x+1)))?(BoardConfig.TOTAL_ROW-(y+1)):(BoardConfig.TOTAL_COLUMNS-(x+1));
+        var bottomLeftMin=Figure.rowsAfter(y)+1<Figure.columnsAfter(x)+1?Figure.rowsAfter(y)+1:Figure.columnsAfter(x)+1;
           for (var j = 1; j <= bottomLeftMin ; j++) {
             bottomRightEndX++;
             bottomRightEndY++;
-            console.log(bottomRightEndX, bottomRightEndY);
+            if(Figure.areInBoard(bottomRightEndX,bottomRightEndY))
+            {
+              if (board[(bottomRightEndY)*10+(bottomRightEndX)].isEmpty) 
+              {
+                Figure.calculateDiagonal(x,y,bottomRightEndX,bottomRightEndY,diagonals);
+               
+              }
+              else{
+                Figure.calculateDiagonal(x,y,bottomRightEndX,bottomRightEndY,diagonals);
+                break;
+              }
+            }
           }
-          calculateDiagonal(x,y,bottomRightEndX,bottomRightEndY,diagonals);
-
-
-        console.log("diag func"+diagonals);
+          
 
  //////////////////////////////////////////////       
-       drawDiagonals(diagonals,board);
+       Figure.drawDiagonals(diagonals,board);
+       return diagonals;
  }
 
-calculateDiagonal = function(x1,y1,x2,y2,diagonalResults) {
-  
-    n= Math.abs(x2-x1);
-        
-    Xd =  (x2-x1)/n;
-    Yd =  (y2-y1)/n;
-        
-    for (var k = 1; k <= n; k++) {
-      diagonalResults.push((y1+k*Yd)*10+(x1+k*Xd));
-      //console.log(k,(y1+k*Yd)*10+(x1+k*Xd));
-    }
-    return diagonalResults;
-}
-
-drawDiagonals = function(diagonals,board)
-{
-    for (var i = 0; i < diagonals.length; i++) {
-           if(board[diagonals[i]].isEmpty)
-            {
-            //  console.log("yes");
-              Tile.MakeGreen(board[diagonals[i]],board[diagonals[i]].col,board[diagonals[i]].row);
-            }
-            else
-            {
-              //not empty
-              Tile.MarkTile(board[diagonals[i]],board[diagonals[i]].col,board[diagonals[i]].row);
-            }
-    }
-}
-
-Bishop.prototype.test = function() {
-  if(y>=0&&y<BoardConfig.TOTAL_ROWS&&x>=0&&x<BoardConfig.TOTAL_COLUMNS)
-  {
-    console.log(y,x);
-    var diagonals=[];
-    //top left
-    if(y==0&&x==0)
-    {
-      for (var i = 1; i < BoardConfig.TOTAL_ROWS; i++) 
-      {
-        diagonals.push((y+i)*10+x+i);
-      }
-    }
-
-    //top right
-    if(y==0&&x==9)
-    {
-      for (var i = 1; i < BoardConfig.TOTAL_ROWS; i++) 
-      {
-        diagonals.push((y+i)*10+x-i);
-      }
-    }
-
-    //bottom right
-    if(y==9&&x==9){
-      for (var i = y; i > 0; i--) 
-      {
-        diagonals.push((y-i)*10+x-i);
-      }
-    }
-
-    //bottom left
-    if(y==9&&x==0)
-    {
-      for (var i = y; i > 0; i--) 
-      {
-        diagonals.push((y-i)*10+x+i);
-      }
-    }
-
-    if(y==9&&x>0&&x<9){
-       for (var i = 1; i < BoardConfig.TOTAL_ROWS-x; i++) {
-          diagonals.push((y-i)*10+x+i);
-         // console.log("f");
-         // console.log(((y-i)*10+x+i));
-       }
-        for (var i = 1; i <= (BoardConfig.TOTAL_ROWS-(BoardConfig.TOTAL_ROWS-x)); i++) {
-          
-            diagonals.push((y-i)*10+x-i);
-          //  console.log("s");
-         // console.log(((y-i)*10+x-i));
-          
-          
-       }
-    }
-
-
-    if(y==0&&x>0&&x<9){
-      diagonals.push((y+1)*10+x+1);
-      diagonals.push((y+1)*10+x-1);
-    }
-
-
-    if(y>0&&y<9&&x>0&&x<9){
-     
-      // for (var i = 1; i < BoardConfig.TOTAL_ROWS-1; i++) {
-        
-      //     if((y-i)>-1&&(x-1)>-1) 
-      //   {
-      //   diagonals.push((y-i)*10+x-i);
-      //   diagonals.push((y-i)*10+x+i);
-      //   console.log(i);
-      //   }
-        
-      //  // console.log(i);
-      // }
-      // j=x-1;
-      // for (var i = y-1; i < BoardConfig.TOTAL_ROWS; i++) {
-      //  // diagonals.push((y-i)*10+x+j);
-      //  // diagonals.push((y-i)*10+x-i);
-      //   //j--;
-      // }
-
-
-      // diagonals.push((y+1)*10+x+1);
-      // diagonals.push((y+1)*10+x-1);
-      // diagonals.push((y-1)*10+x+1);
-      // diagonals.push((y-1)*10+x-1);
-     // console.log("all sides");
-var min=(x<y)?x:y;
-console.log(min);
-        if(min>BoardConfig.TOTAL_ROWS/2)
-        {
-          for (var i = 1; i < BoardConfig.TOTAL_ROWS-min; i++) 
-              {
-                diagonals.push((y+i)*10+x+i);
-                console.log(i);
-              }
-              for (var i = 1; i < BoardConfig.TOTAL_ROWS-min; i++) 
-              {
-                diagonals.push((y+i)*10+x-i);
-              }
-              for (var i = 1; i < BoardConfig.TOTAL_ROWS-min; i++) 
-              {
-                diagonals.push((y-i)*10+x+i);
-                
-              }
-              for (var i = 1; i < BoardConfig.TOTAL_ROWS-min; i++) 
-              {
-                diagonals.push((y-i)*10+x-i);
-                console.log(i);
-            }
-        }
-        else
-        {
-
-        }
-      
-    }
-   
-  
-   for (var i = 0; i < diagonals.length; i++) {
-       if(board[diagonals[i]].isEmpty)
-        {
-        //  console.log("yes");
-
-          Tile.MakeGreen(board[diagonals[i]],board[diagonals[i]].col,board[diagonals[i]].row);
-           // console.log(board[diagonals[i]].row);
-           // console.log(board[diagonals[i]].col);
-        }
-        else
-        {
-         // console.log("no");
-          Tile.MarkTile(board[diagonals[i]],board[diagonals[i]].col,board[diagonals[i]].row);
-           // console.log(board[diagonals[i]].row);
-           //  console.log(board[diagonals[i]].col);
-        }
-    }
+  Bishop.prototype.move=function(x,y,figureRef){
+    //this = figureRef;
+    console.log("1: "+figureRef.col);
+    console.log(x);
+    this.figureReferance.col=x;
+    figureRef.col=x;
+    this.figureReferance.row=y;
+    figureRef.row=y;
+    return figureRef;
   }
-};
-
 
 Bishop.prototype.render = function(context) {
- 
       this.figureReferance.render(context);
 };

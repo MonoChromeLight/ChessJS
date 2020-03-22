@@ -36,7 +36,7 @@ Pawn.prototype.move = function(figureRef,x,y) {
 
 };
 
-Pawn.prototype.moveForward = function(figureRef,x,y) {
+Pawn.prototype.moves = function(x,y,figureRef) {
 
   this.figureReferance = figureRef;
 
@@ -53,7 +53,9 @@ Pawn.prototype.attack = function(attackedPiece) {
 
  
 };
-
+Pawn.prototype.availableMoves = function(isWhitesTurn,board,x,y) {
+  return (y+1)*10+x;
+  }
 Pawn.prototype.isMovable = function(isWhitesTurn,board,x,y) {
 
 

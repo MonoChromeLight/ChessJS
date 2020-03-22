@@ -18,6 +18,7 @@ BoardManager.init    =  function(canvas){
   blackKingImage.onload = function(){
       _this.loadLevel();
       _this.render();
+      console.log("begin");
     }
 
 
@@ -30,7 +31,8 @@ BoardManager.loadLevel  = function(){
   var possibleMoves=[];
   var selectedFigure=0;
   var moved = false;
-
+  var moves  =  [];
+  var currentFigure;
   Board.loadBoard(BoardConfig.TOTAL_ROWS,BoardConfig.TOTAL_COLUMNS);
 ///////////////////////////////////////////////////////////////////////
    var loadFigures = function() {
@@ -41,7 +43,7 @@ BoardManager.loadLevel  = function(){
             // {type:"Pawn",row:7, col:3, isWhite:true},
             // {type:"Pawn",row:8, col:4, isWhite:true},
             //     /////////////////////////////
-            // {type:"Pawn",row:1, col:5, isWhite:false},
+             //{type:"Pawn",row:1, col:5, isWhite:false},
             // {type:"Pawn",row:1, col:6, isWhite:false},
             // {type:"Pawn",row:1, col:7, isWhite:false},
             // {type:"Pawn",row:1, col:8, isWhite:false},
@@ -53,14 +55,17 @@ BoardManager.loadLevel  = function(){
             // {type:"Queen",row:9, col:4, isWhite:true},
             // {type:"Queen",row:0, col:5, isWhite:false},
             // ///////////////////////////////////////////
-            // {type:"Bishop",row:9, col:2, isWhite:true},
-            {type:"Bishop",row:2, col:2, isWhite:true},////
+             {type:"Bishop",row:9, col:6, isWhite:true},
+            {type:"Bishop",row:9, col:2, isWhite:true},////
             // ///////////////////////////////////////////
             // {type:"Knight",row:9, col:1, isWhite:true},
             // {type:"Knight",row:0, col:8, isWhite:false},
             ///////////////////////////////////////////
           //  {type:"Rooks",row:9, col:0, isWhite:true},
-          //  {type:"Rooks",row:0, col:9, isWhite:false},
+          // //  {type:"Rooks",row:0, col:9, isWhite:false},
+          //     {type:"Pawn",row:3, col:7, isWhite:false},
+          //     {type:"Pawn",row:3, col:3, isWhite:false},
+          //     {type:"Pawn",row:1, col:5, isWhite:false},
         ]
 
       
@@ -106,76 +111,46 @@ BoardManager.loadLevel  = function(){
 
     ///////////////////////////////////////////////////////
 };
-BoardManager.selectTile = function(selectedX,selectedY){
+BoardManager.selectTile = function(selectedX,selectedY)
+{
   var x      = Math.floor(selectedX / BoardConfig.TILE_SIZE);
   var y      = Math.floor(selectedY / BoardConfig.TILE_SIZE);
  
-
  
  
     for (var i = 0; i < _this.characterCollection.length; i++) {
-    if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x)&&isWhitesTurn==_this.characterCollection[i].isWhite) {
-        _this.render();
-        Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
-        _this.characterCollection[i].availableMoves(isWhitesTurn,_this.boardCollection,x,y);
-        
+
+      if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x)&&isWhitesTurn==_this.characterCollection[i].isWhite) 
+      {
+        if (!_this.boardCollection[y*10+x].isEmpty) 
+        {
+           _this.render();
+          Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
+          currentFigure=_this.characterCollection[i];
+          moves = _this.characterCollection[i].availableMoves(isWhitesTurn,_this.boardCollection,x,y);
+          _this.characterCollection.splice(i,1);
+          _this.boardCollection[y*10+x].isEmpty=true;
         }
-     }
-
- 
-
-  // for (var i = 0; i < _this.characterCollection.length; i++) {  
-
-  //   if ((_this.characterCollection[i].row==y)&&(_this.characterCollection[i].col==x&&!_this.boardCollection[y*10+x].isEmpty)&&isWhitesTurn==_this.characterCollection[i].isWhite) {
-  //         _this.render();
-  //         selectedFigure=i;
-  //         Tile.MarkTile(_this.boardCollection[y*10+x],x,y);
-  //         if (selectedFigure) 
-  //         {
-  //         possibleMoves=Figure.prototype.calculateMovement( _this.characterCollection[_this.characterCollection[i].col]);
-  //         console.log(possibleMoves.length);
-            
-  //         }
-
-         
-      
-          
-  //        //   
-  //         occupiedTile=_this.boardCollection[y*10+x];
-  //          // Pawn.prototype.move( _this.characterCollection[_this.characterCollection[i].col]);
-  //          // _this.render();
-  //          // console.log(selectedX+" = "+_this.characterCollection[i].col);
-  //          // location.y=Figure.prototype.calculateMovement( _this.characterCollection[_this.characterCollection[i].col]);
-          			
-  //          var moved=false;
-           
-  //          //Figure.flipBoard(_this.characterCollection);
-  //   }
-  // }
-
-   //     for (var i = 0 ; i < possibleMoves.length; i++) {
-   //        Tile.MakeGreen(_this.boardCollection[possibleMoves[i]],possibleMoves[i][0],possibleMoves[i][1]);
-   //        console.log(possibleMoves[i]);
-   //     }
-   // // console.log(selectedFigure); 
-
-   //  if (_this.boardCollection[y*10+x].isEmpty&&selectedFigure>-1){
+      }  
+      else if (_this.boardCollection[y*10+x].isEmpty) 
+      { 
+        for (var i = 0; i < moves.length; i++) 
+        {
         
-   //      Tile.MakeGreen(_this.boardCollection[y*10+x],x,y);
-   //    	Pawn.prototype.move(_this.characterCollection[selectedFigure],x,y);
-   //      // _this.render();
-   //      occupiedTile.isEmpty=true;
-       
-   //      isWhitesTurn=!isWhitesTurn;
-   //      moved=true;
-   //    }
+          newX=moves[i]%10;
+          newY=Math.floor(moves[i]/10);
 
-   //    if (moved){
-   //    		_this.render();
-   //    }
-    
-
-}
+          if(x==newX&&y==newY)
+          {
+            _this.characterCollection.push(currentFigure.move(newX,newY,currentFigure));
+            _this.boardCollection[y*10+x].isEmpty=false;
+            _this.render();
+            break;
+          }
+        }
+      }
+    }
+  }
 
 BoardManager.selectFigure= function() {
 var x= _this.x;
@@ -188,7 +163,6 @@ console.log(x+'  '+y);
 BoardManager.render = function() {
     for(var i = 0; i < _this.boardCollection.length; i++) {
        _this.boardCollection[i].render(_this.context);
-       // console.log(_this.boardCollection[i]);
    }
 
    for(var i = 0; i < _this.characterCollection.length; i++) {
